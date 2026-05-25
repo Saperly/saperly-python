@@ -3,7 +3,12 @@ from __future__ import annotations
 import responses
 
 from saperly import DeliveryListResult, WebhookDelivery, WebhookStats, WebhookTestResult
-from tests.conftest import BASE_URL, SAMPLE_DELIVERY, SAMPLE_STATS_RAW
+from tests.conftest import (
+    BASE_URL,
+    SAMPLE_DELIVERY,
+    SAMPLE_INTERRUPTED_DELIVERY,
+    SAMPLE_STATS_RAW,
+)
 
 
 class TestWebhooks:
@@ -23,6 +28,28 @@ class TestWebhooks:
         assert result.deliveries[0].id == "del-1"
         assert result.deliveries[0].http_status == 200
         assert result.deliveries[0].duration_ms == 150
+
+    def test_interrupted_delivery_shape(self, mock_api, client):
+        """Phase Webhook Improvement Team 3: the `interrupted` event delivery
+        shape round-trips through WebhookDelivery.from_dict with
+        partial_response_text preserved in request_body."""
+        mock_api.add(
+            responses.GET,
+            f"{BASE_URL}/api/v1/webhooks/deliveries",
+            json={"deliveries": [SAMPLE_INTERRUPTED_DELIVERY], "total": 1},
+            status=200,
+        )
+        result = client.webhooks.deliveries(event_type="interrupted")
+
+        assert result.total == 1
+        delivery = result.deliveries[0]
+        assert delivery.event_type == "interrupted"
+        assert delivery.id == "del-2"
+        # request_body carries the outbound interrupted event payload.
+        # Verify partial_response_text round-trips through from_dict.
+        assert isinstance(delivery.request_body, dict)
+        assert delivery.request_body["event"] == "interrupted"
+        assert "partial_response_text" in delivery.request_body
 
     def test_stats_transforms_camel(self, mock_api, client):
         """Verify camelCase keys from the API are transformed to snake_case on WebhookStats."""

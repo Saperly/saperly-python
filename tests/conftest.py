@@ -96,6 +96,30 @@ SAMPLE_DELIVERY = {
     "created_at": "2026-01-01T00:00:00Z",
 }
 
+# Phase Webhook Improvement Team 3: barge-in `interrupted` delivery shape.
+# partial_response_text carries the prefix Twilio confirmed playing — may be
+# empty when caller barges in before any audio is acknowledged.
+SAMPLE_INTERRUPTED_DELIVERY = {
+    "id": "del-2",
+    "line_id": "line-1",
+    "call_id": "call-1",
+    "event_type": "interrupted",
+    "url": "https://example.com/hook",
+    "status": "success",
+    "http_status": 200,
+    "error_message": None,
+    "attempt_count": 1,
+    "request_body": {
+        "event": "interrupted",
+        "call_id": "call-1",
+        "timestamp": 1779441656686,
+        "partial_response_text": "Of course, I would be delighted to tell you everything.",
+    },
+    "response_body": "ok",
+    "duration_ms": 42,
+    "created_at": "2026-05-23T00:00:00Z",
+}
+
 SAMPLE_MESSAGE = {
     "id": "msg_1",
     "line_id": "line_1",
