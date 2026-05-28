@@ -2,6 +2,13 @@
 
 All notable changes to the Python SDK. Versions follow the platform release cadence.
 
+## [0.4.0] (2026-05-28) CrewAI integration
+
+### Added
+
+- `saperly.crewai.SaperlyTools` context manager + `saperly_mcp_server_params(api_key)` helper. Wraps `crewai_tools.MCPServerAdapter` against the Saperly hosted MCP endpoint with the right URL, transport (streamable-http), and bearer `Authorization` header. Lazy imports `crewai_tools` so the dependency is opt-in.
+- New `crewai` optional dependency: `pip install "saperly[crewai]"`.
+
 ## [0.3.0] (2026-05-13) agent-native key management
 
 ### Added

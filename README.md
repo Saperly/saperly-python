@@ -16,6 +16,32 @@ For the async client:
 pip install "saperly[async]"
 ```
 
+For the CrewAI tool wrapper:
+
+```bash
+pip install "saperly[crewai]"
+```
+
+## Use with CrewAI
+
+Saperly ships a Streamable HTTP MCP endpoint at `https://saperly.com/api/v1/mcp`. The CrewAI helper wraps `crewai_tools.MCPServerAdapter` with the right URL, transport, and bearer header.
+
+```python
+import os
+from crewai import Agent
+from saperly.crewai import SaperlyTools
+
+with SaperlyTools(api_key=os.environ["SAPERLY_API_KEY"]) as tools:
+    agent = Agent(
+        role="phone caller",
+        goal="Call leads, qualify them, log results.",
+        tools=tools,
+    )
+    # ... build crew and run
+```
+
+Prefer to manage the lifecycle by hand? Call `SaperlyTools.start()` / `SaperlyTools.stop()`, or use `saperly_mcp_server_params(api_key)` to get the dict you'd pass to `MCPServerAdapter(...)` directly.
+
 ## Quickstart
 
 Provision a hosted line and print its phone number.
