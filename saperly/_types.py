@@ -342,11 +342,13 @@ class Settings:
 
 @dataclass(frozen=True)
 class Voice:
-    id: Optional[str] = None
+    # Saperly voice slug — set as a line's `voice`. Never a vendor voice id.
+    slug: Optional[str] = None
     name: Optional[str] = None
     gender: Optional[str] = None
     accent: Optional[str] = None
-    style: Optional[str] = None
+    description: Optional[str] = None
+    languages: Optional[List[str]] = None
 
     @classmethod
     def from_dict(cls, data: Dict[str, Any]) -> "Voice":

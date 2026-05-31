@@ -18,8 +18,9 @@ class TestVoices:
 
         assert isinstance(result, VoiceListResult)
         assert len(result.voices) == 1
-        assert result.voices[0].id == "voice_1"
-        assert result.voices[0].name == "Alloy"
+        assert result.voices[0].slug == "aria"
+        assert result.voices[0].name == "Aria"
         assert result.voices[0].gender == "female"
         assert result.voices[0].accent == "american"
-        assert result.voices[0].style == "conversational"
+        assert result.voices[0].description == "calm and conversational"
+        assert result.voices[0].languages == ["multi"]

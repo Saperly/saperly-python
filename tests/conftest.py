@@ -162,11 +162,12 @@ SAMPLE_SETTINGS = {
 }
 
 SAMPLE_VOICE = {
-    "id": "voice_1",
-    "name": "Alloy",
+    "slug": "aria",
+    "name": "Aria",
     "gender": "female",
     "accent": "american",
-    "style": "conversational",
+    "description": "calm and conversational",
+    "languages": ["multi"],
 }
 
 # Stats come from API in camelCase (webhook stats endpoint doesn't use format layer)

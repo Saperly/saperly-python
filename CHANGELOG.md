@@ -2,6 +2,18 @@
 
 All notable changes to the Python SDK. Versions follow the platform release cadence.
 
+## [0.4.0] (2026-05-31) Saperly voice catalog (breaking)
+
+### Changed (breaking)
+
+- `Voice` is now `slug, name, gender, accent, description, languages`. The
+  previous `id` attribute is renamed to `slug` (a Saperly voice slug — set it as
+  a line's `voice`), `style` is renamed to `description`, and `languages` is
+  added. Vendor voice ids are no longer exposed. Update any code reading
+  `voice.id` / `voice.style` to `voice.slug` / `voice.description`.
+- `Line.voice` still types as `Optional[str]` but now carries a Saperly slug
+  rather than a raw vendor voice id. Use `client.voices.list()` to discover slugs.
+
 ## [0.3.0] (2026-05-13) agent-native key management
 
 ### Added
